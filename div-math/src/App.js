@@ -35,7 +35,10 @@ export default function App() {
   const [spin, setSpin] = React.useState(3);
   const [turn, setTurn] = React.useState(false);
   const [deg, setDeg] = React.useState(0);
+  const [spinCount, setSpinCount] = React.useState(0);
   const classes = useStyles();
+
+  const spinValue = [5, 4, 2, 1, 0, 5, 3, 1, 4, 2, 1, 5, 4, 3, 0, 4, 1, 5, 2, 1, 5, 3, 1, 4, 3, 1, 4, 2, 0];
 
   const handleChange = (event) => {
     // setSpacing(Number(event.target.value));
@@ -46,20 +49,15 @@ export default function App() {
   const findSpinValue = () => {
     if(spin != 0)
       return setSpin(spin);
-    if(deg % 360 <= 90 && deg % 360 > 15)
-      return setSpin(1);
-    if(deg % 360 <= 90 && deg % 360 > 15)
-      return setSpin(2);
-    if(deg % 360 <= 135 && deg % 360 > 90)
-      return setSpin(3);
-    if(deg % 360 <= 195 && deg % 360 > 135)
-      return spin;
-    if(deg % 360 <= 270 && deg % 360 > 195)
-      setSpin(4);
-    else
-      return setSpin(5);
+    return(spinValue[spinCount]);
   }
-  const toggle = () => {setTurn(!turn); setDeg(Math.floor(Math.random() * 360) + 360+ deg); console.log(deg); setSpin(findSpinValue)} ;
+  const toggle = () => {
+    // setTurn(!turn); 
+    setSpinCount(spinCount + 1);
+    setDeg(75 + 720 + deg); 
+    console.log(deg); 
+    setSpin(findSpinValue)
+  };
 
   return (
     <div><br/><br/>
@@ -67,12 +65,15 @@ export default function App() {
               <SettingsOutlinedIcon style={{marginLeft: 210}}/>
       </IconButton>
       <br/><br/>
-      {spin == 0 && <div style={{marginLeft: 210,
+      {spin == 0 && currentPaper < 10 && <div style={{marginLeft: 210,
         fontFamily: 'Nunito',
         fontSize: 70,}}>spin the wheel to play...</div>}
-      {spin != 0 && <div style={{marginLeft: 210,
+      {spin != 0 && currentPaper < 10 && <div style={{marginLeft: 210,
         fontFamily: 'Nunito',
         fontSize: 70,}}>move {spin} spaces</div>}
+      {currentPaper >= 10 && <div style={{marginLeft: 210,
+        fontFamily: 'Nunito',
+        fontSize: 70,}}>You won!</div>}
     <br/><br/><br/><br/>
     <Grid container className={classes.root} spacing={0}>
       <Grid item xs={12}>
